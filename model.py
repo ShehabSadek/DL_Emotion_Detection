@@ -1,5 +1,6 @@
 from taipy.gui import Gui
 from tensorflow.keras import models
+from PIL import Image
 
 model = models.load_model("baseline_mariya.keras")
 
