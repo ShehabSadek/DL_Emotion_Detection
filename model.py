@@ -3,6 +3,7 @@ from tensorflow.keras import models
 from PIL import Image
 import numpy as np
 import cv2 as cv
+import time
 
 class_names = {
     0: 'angry',
@@ -22,7 +23,7 @@ colors = {
     'sad': (0, 128, 255),       
     'surprised': (0, 255, 255)  
 }
-haar = False
+haar = True
 if haar:
     model = models.load_model("emotion_detection_model_with_face_detection.keras")
 else:
@@ -55,8 +56,8 @@ is_webcam_active=False
 index="""
 <|text-center|
 
-<|{"logo.png"}|image|width=10vw|>
-# Emotion **recognition**{: .color-primary}
+<|{"logo.png"}|image|width=30vw|>
+# Emotion : **<|{pred}|>**{: .color-primary; .font-size-h1}
 
 <|{content}|file_selector|extensions=.jpg,.jpeg,.gif,.png|>
 Select an image
@@ -97,7 +98,7 @@ def on_change(state, var_name, var_val):
     if var_name == "content":
         top_prob, top_pred = predict_mood(model, var_val)
         state.prob = round(top_prob * 100)
-        state.pred = "Mood: " + top_pred
+        state.pred = top_pred
         state.img_path = var_val
         img = cv.imread(state.img_path, cv.IMREAD_UNCHANGED)
         gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
@@ -120,9 +121,10 @@ def on_change(state, var_name, var_val):
                 ret, frame = cap.read()
                 state.refresh("img_path")
 
-                img_path = cv.imencode(".jpg", frame)[1].tobytes()
-                state.img_path = img_path
-                state.refresh("img_path")
+                if frame.size != 0:
+                    img_path = cv.imencode(".jpg", frame)[1].tobytes()
+                    state.img_path = img_path
+                    state.refresh("img_path")
                 
 
                 if state.value == "Files":
@@ -141,6 +143,7 @@ def on_change(state, var_name, var_val):
                         cv.putText(img, top_pred, (x, y - 10), cv.FONT_HERSHEY_SIMPLEX, 0.9, colors[top_pred], 2)
 
                     captured_image = img
+                    time.sleep(0.1)
                 cap.release()
             state.img_path = "placeholder.png"
             state.refresh("img_path")
