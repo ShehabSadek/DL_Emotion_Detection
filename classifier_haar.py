@@ -6,7 +6,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
 
 IMAGE_SIZE = (48, 48)
-BATCH_SIZE = 64
+BATCH_SIZE = 128
 EPOCHS = 25
 
 train_data_dir = "dataset/train"
