@@ -31,7 +31,7 @@ colors = {
 }
 face_cascade = cv.CascadeClassifier("haarcascade_frontalface_default.xml")
 model = models.load_model("emotion_detection_model.keras")
-model = models.load_model("emotion_detection_model_with_face_detection.keras")
+# model = models.load_model("emotion_detection_model_with_face_detection.keras")
 class VideoThread(QThread):
     change_pixmap_signal = pyqtSignal(np.ndarray)
 
@@ -88,7 +88,9 @@ class MainWindow(QWidget):
         for row, (emotion, progress_bar) in enumerate(self.emotion_labels.items(), start=2):
             progress_bar.setRange(0, 100)
             progress_bar.setValue(0)
-            layout.addWidget(QLabel(emotion), row, 13, 2, 4)
+            label= QLabel(emotion)
+            label.setStyleSheet("QLabel { color : black; }")
+            layout.addWidget(label, row, 13, 2, 4)
             layout.addWidget(progress_bar, row, 15, 2, 4)
 
         layout.addWidget(self.image_label,0,0,12,12)
@@ -120,9 +122,8 @@ class MainWindow(QWidget):
         #     return
         for i,bar in enumerate(self.emotion_labels.values()):
             bar.setValue(int((self.emotions_preds.flatten()[i])*100))
-
-            # color = colors[self.emotion_labels.keys()]
-            # bar.setStyleSheet(f"QProgressBar::chunk {{ background-color: rgb({color[0]}, {color[1]}, {color[2]}) }}")
+            color = list(colors.values())[i]
+            bar.setStyleSheet(f"QProgressBar {{ border: 1px solid black; }} QProgressBar::chunk {{ background-color: rgb({color[0]}, {color[1]}, {color[2]}); }}")
     def convert_cv_qt(self, cv_img):
         rgb_image = cv.cvtColor(cv_img, cv.COLOR_BGR2RGB)
         h, w, ch = rgb_image.shape
