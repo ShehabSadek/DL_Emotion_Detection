@@ -1,5 +1,4 @@
 import sys
-import os
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import (
     QApplication, QDesktopWidget, QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QGridLayout,QProgressBar,
@@ -160,3 +159,5 @@ if __name__ == "__main__":
     window = MainWindow()
     window.show()
     sys.exit(app.exec_())
+
+      
