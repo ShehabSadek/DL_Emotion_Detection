@@ -88,20 +88,16 @@ class VideoThread(QThread):
 
     def detect_faces(self, image):
         try:
-            # Check if the input image is empty
             if image is None or len(image) == 0:
                 print("Error: Empty or invalid image in detect_faces")
                 return None
 
-            # Convert image to RGB format (required by MediaPipe)
             rgb_image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
 
-            # Check if the converted image is empty
             if rgb_image is None or len(rgb_image) == 0:
                 print("Error: Empty or invalid RGB image in detect_faces")
                 return None
 
-            # Detect faces using MediaPipe
             result = self.face_detection.process(rgb_image)
 
             faces = []
