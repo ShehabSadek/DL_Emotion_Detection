@@ -49,7 +49,7 @@ mp_face_detection = mp.solutions.face_detection
 # model = models.load_model("emotion_detection_model.keras")
 model = models.load_model("emotion_detection_model_with_face_detection.keras")
 gender_model = models.load_model("gender_detection_model.keras")
-age_model = models.load_model("age_detection_model.keras")
+age_model = models.load_model("age_detection_model2.keras")
 
 class VideoThread(QThread):
     change_pixmap_signal = pyqtSignal(np.ndarray)
